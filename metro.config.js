@@ -1,11 +1,21 @@
-const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
+import {getDefaultConfig, mergeConfig} from '@react-native/metro-config';
+import {fileURLToPath} from 'url';
+import {dirname} from 'path';
 
-/**
- * Metro configuration
- * https://reactnative.dev/docs/metro
- *
- * @type {import('@react-native/metro-config').MetroConfig}
- */
-const config = {};
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+const config = {
+  transformer: {
+    getTransformOptions: async () => ({
+      transform: {
+        experimentalImportSupport: false,
+        inlineRequires: true,
+      },
+    }),
+  },
+  resolver: {
+    assetExts: ['png', 'jpg', 'jpeg', 'gif', 'webp', 'ttf'],
+  },
+};
+
+export default mergeConfig(getDefaultConfig(__dirname), config);

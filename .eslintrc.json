@@ -1,0 +1,45 @@
+/* eslint-env node */
+{
+  "root": true,
+  "extends": [
+    "@react-native",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-native/all"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "react", "react-native"],
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": "warn",
+    "react-native/no-inline-styles": "warn",
+    "prettier/prettier": "warn",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["warn"],
+    "no-catch-shadow": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["warn"],
+    "react/no-unstable-nested-components": ["warn", { "allowAsProps": true }]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "globals": {
+    "module": true
+  }
+}
