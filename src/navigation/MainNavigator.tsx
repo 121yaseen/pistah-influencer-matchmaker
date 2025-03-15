@@ -1,5 +1,6 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createStackNavigator} from '@react-navigation/stack';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -9,10 +10,12 @@ import DiscoverScreen from '../screens/main/DiscoverScreen';
 import MatchesScreen from '../screens/main/MatchesScreen';
 import MessagesScreen from '../screens/main/MessagesScreen';
 import ProfileScreen from '../screens/main/ProfileScreen';
+import SettingsScreen from '../screens/main/SettingsScreen';
 import {MainStackParamList} from './types';
 import CustomIcon from '../components/CustomIcon';
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator<MainStackParamList>();
 
 // Custom back button component
 const CustomBackButton = () => {
@@ -46,6 +49,19 @@ const ProfileTabIcon = ({focused}: {focused: boolean}) => (
   <TabIcon name="account" focused={focused} />
 );
 
+// Profile Stack Navigator
+const ProfileStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
+    </Stack.Navigator>
+  );
+};
+
 // Move tab components outside of MainNavigator with proper navigation props
 const DiscoverTab = () => {
   return (
@@ -76,11 +92,9 @@ const MessagesTab = () => {
 };
 
 const ProfileTab = () => {
-  const navigation =
-    useNavigation<StackNavigationProp<MainStackParamList, 'Profile'>>();
   return (
     <View style={styles.tabContainer}>
-      <ProfileScreen navigation={navigation} />
+      <ProfileStack />
     </View>
   );
 };
@@ -120,10 +134,11 @@ const MainNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Profile"
+        name="ProfileTab"
         component={ProfileTab}
         options={{
           tabBarIcon: ProfileTabIcon,
+          title: 'Profile',
         }}
       />
     </Tab.Navigator>

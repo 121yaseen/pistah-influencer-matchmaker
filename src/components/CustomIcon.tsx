@@ -24,6 +24,18 @@ const iconMappings: Record<string, {set: string; name: string}> = {
   cog: {set: 'fontawesome5', name: 'cog'},
   logout: {set: 'fontawesome5', name: 'sign-out-alt'},
 
+  // Settings icons
+  bell: {set: 'fontawesome5', name: 'bell'},
+  moon: {set: 'fontawesome5', name: 'moon'},
+  envelope: {set: 'fontawesome5', name: 'envelope'},
+  lock: {set: 'fontawesome5', name: 'lock'},
+  shield: {set: 'fontawesome5', name: 'shield-alt'},
+  trash: {set: 'fontawesome5', name: 'trash'},
+  'info-circle': {set: 'fontawesome5', name: 'info-circle'},
+  'file-contract': {set: 'fontawesome5', name: 'file-contract'},
+  'user-shield': {set: 'fontawesome5', name: 'user-shield'},
+  'question-circle': {set: 'fontawesome5', name: 'question-circle'},
+
   // Other icons
   cards: {set: 'fontawesome5', name: 'layer-group'},
   'account-group': {set: 'fontawesome5', name: 'users'},

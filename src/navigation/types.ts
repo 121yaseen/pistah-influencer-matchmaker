@@ -66,6 +66,9 @@ export type MainStackParamList = {
   Matches: undefined;
   Messages: undefined;
   Profile: undefined;
+  Settings: undefined;
+  EditProfile: undefined;
+  CampaignManagement: undefined;
   Chat: {
     matchId: string;
     otherUserName: string;
