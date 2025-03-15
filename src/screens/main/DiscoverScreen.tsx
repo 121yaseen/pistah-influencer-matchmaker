@@ -7,9 +7,12 @@ import {
   Animated,
   PanResponder,
   Image,
+  FlatList,
+  TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import CustomIcon from '../../components/CustomIcon';
 import {useAuth} from '../../hooks/useAuth';
 import {Campaign, InfluencerProfile} from '../../types';
 import firestore from '@react-native-firebase/firestore';
@@ -129,7 +132,7 @@ const DiscoverScreen = () => {
     if (currentIndex >= data.length) {
       return (
         <View style={styles.noMoreCards}>
-          <Icon name="cards" size={80} color="#999" />
+          <CustomIcon name="cards" size={80} color="#999" />
           <Text style={styles.noMoreCardsText}>No more profiles</Text>
           <Text style={styles.noMoreCardsSubtext}>
             Check back later for more matches
@@ -162,14 +165,14 @@ const DiscoverScreen = () => {
           </Text>
           {isInfluencer ? (
             <View style={styles.stats}>
-              <Icon name="account-group" size={20} color="#666" />
+              <CustomIcon name="account-group" size={20} color="#666" />
               <Text style={styles.statsText}>
                 {item.instagramStats.followers.toLocaleString()} followers
               </Text>
             </View>
           ) : (
             <View style={styles.stats}>
-              <Icon name="currency-usd" size={20} color="#666" />
+              <CustomIcon name="currency-usd" size={20} color="#666" />
               <Text style={styles.statsText}>
                 Budget: ${item.budget.min} - ${item.budget.max}
               </Text>

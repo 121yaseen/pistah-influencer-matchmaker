@@ -1,6 +1,5 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -11,6 +10,7 @@ import MatchesScreen from '../screens/main/MatchesScreen';
 import MessagesScreen from '../screens/main/MessagesScreen';
 import ProfileScreen from '../screens/main/ProfileScreen';
 import {MainStackParamList} from './types';
+import CustomIcon from '../components/CustomIcon';
 
 const Tab = createBottomTabNavigator();
 
@@ -19,14 +19,14 @@ const CustomBackButton = () => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity onPress={() => navigation.goBack()}>
-      <Icon name="arrow-left" size={24} color="#000" />
+      <CustomIcon name="arrow-left" size={24} color="#000" />
     </TouchableOpacity>
   );
 };
 
 // Move TabIcon component outside of render
 const TabIcon = ({name, focused}: {name: string; focused: boolean}) => (
-  <Icon name={name} size={24} color={focused ? '#007AFF' : '#999999'} />
+  <CustomIcon name={name} size={24} color={focused ? '#007AFF' : '#999999'} />
 );
 
 // Create tab icon components for each tab

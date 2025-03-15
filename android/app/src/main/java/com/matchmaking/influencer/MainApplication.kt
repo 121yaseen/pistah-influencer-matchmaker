@@ -12,6 +12,8 @@ import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.react.soloader.OpenSourceMergedSoMapping
 import com.facebook.soloader.SoLoader
 import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseOptions
+import android.util.Log
 
 class MainApplication : Application(), ReactApplication {
 
@@ -36,8 +38,26 @@ class MainApplication : Application(), ReactApplication {
 
   override fun onCreate() {
     super.onCreate()
-    // Initialize Firebase
-    FirebaseApp.initializeApp(this)
+    
+    try {
+      // Check if Firebase is already initialized
+      if (FirebaseApp.getApps(this).isEmpty()) {
+        // Initialize Firebase manually if needed
+        val options = FirebaseOptions.Builder()
+          .setProjectId("influencer-matchmaking")
+          .setApplicationId("1:92911660088:android:3855a3192bfc30fef44acd")
+          .setApiKey("AIzaSyB8THaw-3vcd40c8tK5I8GufxzpK21Wb3s")
+          .setStorageBucket("influencer-matchmaking.firebasestorage.app")
+          .build()
+          
+        FirebaseApp.initializeApp(this, options)
+        Log.d("Firebase", "Firebase initialized successfully")
+      } else {
+        Log.d("Firebase", "Firebase was already initialized")
+      }
+    } catch (e: Exception) {
+      Log.e("Firebase", "Firebase initialization failed: ${e.message}")
+    }
     
     SoLoader.init(this, OpenSourceMergedSoMapping)
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
