@@ -34,18 +34,31 @@ jobs:
       - name: Create google-services.json file
         run: echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" | base64 -d > android/app/google-services.json
 
+      - name: Debug Node.js environment
+        run: |
+          echo "Node.js version: $(node -v)"
+          echo "NPM version: $(npm -v)"
+          echo "Yarn version: $(yarn -v)"
+          echo "Current directory: $(pwd)"
+          ls -la
+          echo "Package.json content:"
+          cat package.json
+
       - name: Create assets directory if it doesn't exist
         run: mkdir -p android/app/src/main/assets
 
       - name: Bundle JS into APK
         run: |
+          # Create an empty index.android.bundle file if it doesn't exist
+          touch android/app/src/main/assets/index.android.bundle
+
+          # Run the bundling command
           npx react-native bundle \
             --platform android \
             --dev false \
             --entry-file index.js \
             --bundle-output android/app/src/main/assets/index.android.bundle \
-            --assets-dest android/app/src/main/res \
-            --config metro.config.js
+            --assets-dest android/app/src/main/res
 
       - name: Build Debug APK
         run: |
