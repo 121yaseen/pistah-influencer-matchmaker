@@ -10,12 +10,12 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useAuth} from '@hooks/useAuth';
+import {useAuth} from '../../hooks/useAuth';
 import {launchImageLibrary} from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {MainStackParamList} from '@navigation/types';
+import {MainStackParamList} from '../../navigation/types';
 
 type ProfileScreenProps = {
   navigation: StackNavigationProp<MainStackParamList, 'Profile'>;
@@ -30,11 +30,11 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
   const updateProfileImage = async (imageUri: string) => {
     try {
       setLoading(true);
-      const reference = storage().ref(`profile_images/${profile?.uid}`);
+      const reference = storage().ref(`profile_images/${profile?.id}`);
       await reference.putFile(imageUri);
       const url = await reference.getDownloadURL();
 
-      await firestore().collection('users').doc(profile?.uid).update({
+      await firestore().collection('users').doc(profile?.id).update({
         photoURL: url,
       });
     } catch (err) {
@@ -145,10 +145,13 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
             <TouchableOpacity
               onPress={handleImagePick}
               style={styles.profileImageContainer}>
-              {profile?.photoURL ? (
+              {profile?.profileImage ? (
                 <Image
                   source={{
-                    uri: profile.photoURL,
+                    uri:
+                      typeof profile.profileImage === 'string'
+                        ? profile.profileImage
+                        : '',
                   }}
                   style={styles.profileImage}
                 />
@@ -183,7 +186,9 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
           {!isInfluencer && (
             <TouchableOpacity
               style={styles.menuItem}
-              onPress={() => navigation.navigate('CampaignManagement')}>
+              onPress={() =>
+                navigation.navigate('Main', {screen: 'CampaignManagement'})
+              }>
               <Icon name="bullhorn" size={24} color="#666" />
               <Text style={styles.menuText}>Manage Campaigns</Text>
               <Icon name="chevron-right" size={24} color="#999" />

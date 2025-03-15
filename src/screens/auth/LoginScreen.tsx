@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,16 +9,17 @@ import {
   Platform,
   Alert,
   ActivityIndicator,
+  Image,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { AuthScreenProps } from '../../navigation/types';
-import { useAuth } from '../../hooks/useAuth';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {AuthScreenProps} from '../../navigation/types';
+import {useAuth} from '../../hooks/useAuth';
 
-const LoginScreen = ({ navigation }: AuthScreenProps<'Login'>) => {
+const LoginScreen = ({navigation}: AuthScreenProps<'Login'>) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
+  const {signIn} = useAuth();
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -29,7 +30,7 @@ const LoginScreen = ({ navigation }: AuthScreenProps<'Login'>) => {
     try {
       setLoading(true);
       await signIn(email, password);
-    } catch (error) {
+    } catch (error: any) {
       Alert.alert('Error', error.message);
     } finally {
       setLoading(false);
@@ -40,8 +41,15 @@ const LoginScreen = ({ navigation }: AuthScreenProps<'Login'>) => {
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.content}
-      >
+        style={styles.content}>
+        <View style={styles.logoContainer}>
+          <Image
+            source={{uri: 'logo'}}
+            style={styles.logo}
+            resizeMode="contain"
+          />
+        </View>
+
         <View style={styles.header}>
           <Text style={styles.title}>Welcome Back</Text>
           <Text style={styles.subtitle}>Sign in to continue</Text>
@@ -71,16 +79,14 @@ const LoginScreen = ({ navigation }: AuthScreenProps<'Login'>) => {
             style={styles.forgotPassword}
             onPress={() => {
               // Handle forgot password
-            }}
-          >
+            }}>
             <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[styles.button, loading && styles.buttonDisabled]}
             onPress={handleLogin}
-            disabled={loading}
-          >
+            disabled={loading}>
             {loading ? (
               <ActivityIndicator color="#FFFFFF" />
             ) : (
@@ -109,9 +115,17 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
+  logoContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  logo: {
+    width: 120,
+    height: 120,
+  },
   header: {
-    marginTop: 40,
-    marginBottom: 40,
+    marginBottom: 30,
   },
   title: {
     fontSize: 32,

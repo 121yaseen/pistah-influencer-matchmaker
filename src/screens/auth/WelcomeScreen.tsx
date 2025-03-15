@@ -5,12 +5,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
+  Image,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../navigation/types';
 import {useAuth} from '../../hooks/useAuth';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type WelcomeScreenNavigationProp = StackNavigationProp<RootStackParamList>;
 
@@ -28,7 +28,11 @@ const WelcomeScreen = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <View style={styles.logoContainer}>
-          <Icon name="handshake" size={100} color="#007AFF" />
+          <Image
+            source={{uri: 'logo'}}
+            style={styles.logo}
+            resizeMode="contain"
+          />
         </View>
         <Text style={styles.title}>Welcome to InfluencerMatchMaker</Text>
         <Text style={styles.subtitle}>
@@ -79,6 +83,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 30,
+  },
+  logo: {
+    width: '100%',
+    height: '100%',
   },
   title: {
     fontSize: 24,
