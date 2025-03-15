@@ -41,7 +41,7 @@ A cross-platform mobile app that matches influencers with companies seeking prod
 
 ### Prerequisites
 
-- Node.js >= 14
+- Node.js >= 18
 - Yarn or npm
 - iOS: XCode (Mac only)
 - Android: Android Studio
@@ -65,9 +65,21 @@ yarn install
 cd ios && pod install && cd ..
 ```
 
-4. Create a Firebase project and add your configuration to `src/config/firebase.ts`
+4. Set up Firebase configuration:
+   - Create a Firebase project at [Firebase Console](https://console.firebase.google.com/)
+   - Download the `google-services.json` file and place it in the `android/app/` directory
+   - Download the `GoogleService-Info.plist` file and place it in the `ios/InfluencerMatchMaker/` directory
+   - These files should NOT be committed to version control (they're already in .gitignore)
 
-5. Set up Instagram API credentials in `src/config/instagram.ts`
+5. Set up Instagram API credentials (if needed)
+
+### Environment Variables
+
+Copy the `.env.example` file to `.env` and fill in your configuration:
+
+```bash
+cp .env.example .env
+```
 
 ### Running the App
 
@@ -97,6 +109,21 @@ src/
 ├── types/         # TypeScript type definitions
 └── utils/         # Utility functions
 ```
+
+## CI/CD Pipeline
+
+This project uses GitHub Actions for continuous integration and deployment:
+
+- The workflow builds the Android APK on each push to the main branch
+- Firebase configuration is securely stored in GitHub Secrets
+- The APK is uploaded as an artifact for easy download and testing
+
+### Setting up GitHub Secrets
+
+For the CI/CD pipeline to work, you need to add the following secrets to your GitHub repository:
+
+- `GOOGLE_SERVICES_JSON`: The entire content of your `google-services.json` file
+- `GOOGLE_SERVICE_INFO_PLIST`: The entire content of your `GoogleService-Info.plist` file (for iOS builds)
 
 ## Contributing
 

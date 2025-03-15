@@ -31,6 +31,19 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Create Firebase Configuration Files
+        run: |
+          # Create Android configuration
+          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" > android/app/google-services.json
+
+          # Create iOS configuration (for future iOS builds)
+          if [ ! -z "${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}" ]; then
+            mkdir -p ios/InfluencerMatchMaker
+            echo "${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}" > ios/InfluencerMatchMaker/GoogleService-Info.plist
+          fi
+
+          echo "Firebase configuration files created"
+
       - name: Build Debug APK
         run: |
           cd android
