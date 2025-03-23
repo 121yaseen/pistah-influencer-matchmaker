@@ -21,15 +21,14 @@ jobs:
           node-version: "20"
           cache: "npm"
 
-      - name: 📦 Install dependencies
-        run: |
-          npm install --legacy-peer-deps
-          npm install -g eas-cli --legacy-peer-deps
+      - name: 🔧 Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: 🔑 Setup EAS
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        run: npx eas-cli login --token $EXPO_TOKEN
+      - name: 📦 Install dependencies
+        run: npm install --legacy-peer-deps
 
       - name: 🏗️ Build Android APK
         run: eas build --platform android --profile preview --non-interactive --no-wait
@@ -39,6 +38,8 @@ jobs:
           # Wait for the build to complete and get the URL
           BUILD_URL=$(eas build:list --json --limit 1 --platform android --status finished | jq -r '.[0].artifacts.buildUrl')
           wget $BUILD_URL -O app-release.apk
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
       - name: ⬆️ Upload APK artifact
         uses: actions/upload-artifact@v4
