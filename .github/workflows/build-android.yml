@@ -1,0 +1,46 @@
+name: Build Android APK
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📚 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: 📦 Install dependencies
+        run: |
+          npm ci
+          npm install -g eas-cli
+
+      - name: 🔑 Setup EAS
+        run: |
+          echo "${{ secrets.EAS_TOKEN }}" | eas login
+
+      - name: 🏗️ Build Android APK
+        run: eas build --platform android --profile preview --non-interactive --no-wait
+
+      - name: 📱 Download APK
+        run: |
+          # Wait for the build to complete and get the URL
+          BUILD_URL=$(eas build:list --json --limit 1 --platform android --status finished | jq -r '.[0].artifacts.buildUrl')
+          wget $BUILD_URL -O app-release.apk
+
+      - name: ⬆️ Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: app-release.apk
