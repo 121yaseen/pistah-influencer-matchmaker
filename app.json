@@ -8,6 +8,9 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "cli": {
+      "appVersionSource": "appJson"
+    },
     "ios": {
       "supportsTablet": true
     },
@@ -36,6 +39,12 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9db2ba47-87a0-4959-8aea-31b4b3f184f1"
+      }
+    },
+    "owner": "pistah.ad"
   }
 }
