@@ -27,8 +27,9 @@ jobs:
           npm install -g eas-cli --legacy-peer-deps
 
       - name: 🔑 Setup EAS
-        run: |
-          echo "${{ secrets.EAS_TOKEN }}" | eas login
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: eas login --non-interactive
 
       - name: 🏗️ Build Android APK
         run: eas build --platform android --profile preview --non-interactive --no-wait
