@@ -11,6 +11,7 @@ import MatchesScreen from '../screens/main/MatchesScreen';
 import MessagesScreen from '../screens/main/MessagesScreen';
 import ProfileScreen from '../screens/main/ProfileScreen';
 import SettingsScreen from '../screens/main/SettingsScreen';
+import MyProfileScreen from '../screens/main/MyProfileScreen';
 import {MainStackParamList} from './types';
 import CustomIcon from '../components/CustomIcon';
 
@@ -32,7 +33,7 @@ const TabIcon = ({name, focused}: {name: string; focused: boolean}) => (
   <CustomIcon name={name} size={24} color={focused ? '#007AFF' : '#999999'} />
 );
 
-// Create tab icon components for each tab
+// Move tab icon components for each tab
 const DiscoverTabIcon = ({focused}: {focused: boolean}) => (
   <TabIcon name="compass" focused={focused} />
 );
@@ -49,6 +50,10 @@ const ProfileTabIcon = ({focused}: {focused: boolean}) => (
   <TabIcon name="account" focused={focused} />
 );
 
+const MyProfileTabIcon = ({focused}: {focused: boolean}) => (
+  <TabIcon name="account-circle" focused={focused} />
+);
+
 // Profile Stack Navigator
 const ProfileStack = () => {
   return (
@@ -57,6 +62,19 @@ const ProfileStack = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
+    </Stack.Navigator>
+  );
+};
+
+// My Profile Stack Navigator
+const MyProfileStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="MyProfile" component={MyProfileScreen} />
       <Stack.Screen name="Settings" component={SettingsScreen} />
     </Stack.Navigator>
   );
@@ -99,6 +117,14 @@ const ProfileTab = () => {
   );
 };
 
+const MyProfileTab = () => {
+  return (
+    <View style={styles.tabContainer}>
+      <MyProfileStack />
+    </View>
+  );
+};
+
 const MainNavigator = () => {
   return (
     <Tab.Navigator
@@ -134,11 +160,11 @@ const MainNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="ProfileTab"
-        component={ProfileTab}
+        name="MyProfileTab"
+        component={MyProfileTab}
         options={{
-          tabBarIcon: ProfileTabIcon,
-          title: 'Profile',
+          tabBarIcon: MyProfileTabIcon,
+          title: 'My Profile',
         }}
       />
     </Tab.Navigator>

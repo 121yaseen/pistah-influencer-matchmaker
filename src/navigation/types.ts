@@ -61,18 +61,17 @@ export type ProfileStackParamList = {
 export type MainStackParamList = {
   Welcome: undefined;
   InstagramAuth: undefined;
-  Main: undefined;
+  Main: {screen: string};
   Discover: undefined;
   Matches: undefined;
   Messages: undefined;
   Profile: undefined;
+  MyProfile: undefined;
   Settings: undefined;
   EditProfile: undefined;
   CampaignManagement: undefined;
-  Chat: {
-    matchId: string;
-    otherUserName: string;
-  };
+  CampaignDetail: {campaignId: string};
+  ChatScreen: {matchId: string; recipientId: string};
 };
 
 // Helper types for screen props
